@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --transpile-only ./src/main.ts",
-    "typeorm": "ts-node --transpile-only ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node --transpile-only ./node_modules/typeorm/cli.js",
+    "postinstall": "npx tsc",
+    "start": "node ./dist/main.js"
   },
   "repository": {
     "type": "git",

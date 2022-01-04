@@ -4,10 +4,10 @@ module.exports = {
     type: "postgres",
     url: process.env.DATABASE_URL,
     entities: [
-        'src/core/database/entities/**/*.ts'
+        process.env.ENTITIES_DIR
     ],
     migrations:[
-        'src/core/database/migrations/**/*.ts'
+        process.env.MIGRATIONS_DIR
     ],
     cli: {
         entitiesDir: 'src/core/database/entities',
