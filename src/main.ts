@@ -1,14 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import { DatabaseConnection } from './core/database/connections/connection';
-
-const app = express();
-app.use(express.json());
-app.use(cors());
+import 'reflect-metadata';
+import { initServer } from './core/presentation/server';
 
 DatabaseConnection.initConnection()
     .then(() => {
-        app.listen(8081, () => console.log("Server is running..."));
+        initServer()
     })
     .catch((error) => {
         console.log(error);

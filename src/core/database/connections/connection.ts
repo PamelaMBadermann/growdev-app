@@ -1,19 +1,21 @@
-import { Connection, createConnection } from 'typeorm';
+import { Connection, createConnection, getConnection } from 'typeorm';
 
 export class DatabaseConnection {
     private static _connection: Connection;
 
     static getConnection() {
-        if(!this._connection) {
-            throw new Error("Connection not openned.")
+        let conn = getConnection();
+
+        if(!conn) {
+            throw new Error("Database is not connected.");
         }
 
-        return this._connection;
+        return DatabaseConnection._connection;
     }
 
     static async initConnection() {
-        !this._connection 
-            ? this._connection = await createConnection() 
-            : console.log("Conexão já estabelecida");
-    }
+        if(!DatabaseConnection._connection) {
+            this._connection = await createConnection();
+        }
+    } 
 }
