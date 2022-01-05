@@ -1,20 +1,14 @@
 import { Request, Response } from "express";
-import { UserRepository } from "../../core/database/repositories/user-repository";
+import { IUserRepository } from "./user-repository";
 
 export class UserController {
-    // private repository: UserRepository;
-
-    private repository = new UserRepository();
-    // constructor() {
-    //     this.repository = new UserRepository();
-    // }
+    constructor(private repository: IUserRepository) {}
 
     async create(req: Request, res: Response) {
         try {
             const { nome, username, cpf, idade } = req.body;
 
-            const repo = new UserRepository();
-            await repo.create({
+            await this.repository.create({
                 nome, username, cpf, idade
             });
 
@@ -39,8 +33,6 @@ export class UserController {
                 data: result
             });
         } catch(error) {
-            console.log(error);
-            
             res.status(500).send({
                 ok: false,
                 error
