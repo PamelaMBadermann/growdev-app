@@ -1,5 +1,5 @@
 import {Column, CreateDateColumn, Entity, PrimaryColumn} from "typeorm";
-import { IUser } from "../../../features/user/user";
+import { IUser } from "../../../../features/user/domain/model/user";
 
 @Entity()
 export class User implements IUser {

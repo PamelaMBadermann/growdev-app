@@ -1,4 +1,4 @@
-import { DatabaseConnection } from './core/database/connections/connection';
+import { DatabaseConnection } from './core/infra/database/connections/connection';
 import 'reflect-metadata';
 import { initServer } from './core/presentation/server';
 
