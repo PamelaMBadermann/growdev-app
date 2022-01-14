@@ -7,15 +7,22 @@ import { UpdateUserController } from "../controller/update-user-controller";
 export class UserRouter {
     static getRoutes() {
         const routes = Router();
-        
+
         const userRepo = new UserRepository();
+
         const createUserController = new CreateUserController(userRepo);
         const listUserController = new ListUserController(userRepo);
         const updateUserController = new UpdateUserController(userRepo);
 
-        routes.get('/', (req: Request, res: Response) => listUserController.execute(req, res));
-        routes.post('/', (req: Request, res: Response) => createUserController.execute(req, res));
-        routes.put('/:username', (req: Request, res: Response) => updateUserController.execute(req, res));
+        routes.get("/", (req: Request, res: Response) =>
+            listUserController.execute(req, res)
+        );
+        routes.post("/", (req: Request, res: Response) =>
+            createUserController.execute(req, res)
+        );
+        routes.put("/:username", (req: Request, res: Response) =>
+            updateUserController.execute(req, res)
+        );
 
         return routes;
     }
