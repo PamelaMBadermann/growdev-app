@@ -22,5 +22,7 @@ export class ProjectRepository {
     async create(project: IProject) {
         const projectEntity = this.repository.create(project);
         await this.repository.save(projectEntity);
+
+        return projectEntity;
     }
 }

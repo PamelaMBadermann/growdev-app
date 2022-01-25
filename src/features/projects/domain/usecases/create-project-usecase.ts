@@ -1,5 +1,7 @@
+import { create } from "domain";
 import { UseCase } from "../../../../core/domain/contracts/usecase";
 import { NotFoundError } from "../../../../core/domain/errors/not-found-error";
+import { CacheRepository } from "../../../../core/infra/repositories/cache-repository";
 import { UserRepository } from "../../../user/infra/repositories/user-repository";
 import { ProjectRepository } from "../../infra/repositories/project-repository";
 
@@ -14,7 +16,8 @@ export interface CreateProjectParams {
 export class CreateProjectUseCase implements UseCase {
     constructor(
         private repository: ProjectRepository,
-        private userRepository: UserRepository
+        private userRepository: UserRepository,
+        private cacheRepository: CacheRepository
     ) {}
 
     async run(project: CreateProjectParams) {
@@ -23,9 +26,18 @@ export class CreateProjectUseCase implements UseCase {
             throw new NotFoundError("user");
         }
 
-        const result = await this.repository.create({
+        const toCreateProject = {
             ...project,
             user,
-        });
+        };
+
+        // Create no BD relacional
+        const created = await this.repository.create(toCreateProject);
+
+        // Set no Redis
+        await this.cacheRepository.set(
+            `project:${created.uid}`,
+            toCreateProject
+        );
     }
 }

@@ -1,4 +1,5 @@
 import { Request, Response, Router } from "express";
+import { CacheRepository } from "../../../../core/infra/repositories/cache-repository";
 import { UserRepository } from "../../../user/infra/repositories/user-repository";
 import { CreateProjectUseCase } from "../../domain/usecases/create-project-usecase";
 import { FindProjectByIdUseCase } from "../../domain/usecases/find-project-by-id/find-project-by-id-usecase";
@@ -16,12 +17,17 @@ export class ProjectRouter {
 
         const projectRepository = new ProjectRepository();
         const userRepository = new UserRepository();
+        const cacheRepository = new CacheRepository();
 
         const createProjectUseCase = new CreateProjectUseCase(
             projectRepository,
-            userRepository
+            userRepository,
+            cacheRepository
         );
-        const listProjectsUseCase = new ListProjectsUseCase(projectRepository);
+        const listProjectsUseCase = new ListProjectsUseCase(
+            projectRepository,
+            cacheRepository
+        );
 
         const createProjectController = new CreateProjectController(
             createProjectUseCase
@@ -40,7 +46,8 @@ export class ProjectRouter {
         );
 
         const findProjectByIdUseCase = new FindProjectByIdUseCase(
-            projectRepository
+            projectRepository,
+            cacheRepository
         );
         const findProjectByIdController = new FindProjectByIdController(
             findProjectByIdUseCase
