@@ -9,7 +9,7 @@ import { ListProjectsUseCase } from "../../domain/usecases/list-projects-usecase
 export class ListProjectsController implements Controller {
     constructor(private listProjectsUseCase: ListProjectsUseCase) {}
 
-    async execute(req: Request, res: Response) {
+    async execute(_: Request, res: Response) {
         try {
             const result = await this.listProjectsUseCase.run();
 

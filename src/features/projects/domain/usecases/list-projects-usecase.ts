@@ -9,14 +9,14 @@ export class ListProjectsUseCase implements UseCase {
     ) {}
 
     async run() {
-        const cachedProjects = await this.cacheRepository.get("project:all");
-        if (cachedProjects) {
-            return cachedProjects;
-        }
+        // const cachedProjects = await this.cacheRepository.get("project:all");
+        // if (cachedProjects) {
+        //     return cachedProjects;
+        // }
 
-        const result = await this.repository.findAll();
+        const result = await this.repository.findSecretProjects();
 
-        await this.cacheRepository.set("project:all", result);
+        await this.cacheRepository.hset("project", "project:all", result);
 
         return result;
     }

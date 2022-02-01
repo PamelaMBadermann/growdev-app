@@ -1,4 +1,11 @@
-import { Repository } from "typeorm";
+import {
+    ILike,
+    IsNull,
+    LessThan,
+    MoreThanOrEqual,
+    Not,
+    Repository,
+} from "typeorm";
 import { DatabaseConnection } from "../../../../core/infra/database/connections/connection";
 import { Project } from "../../../../core/infra/database/entities/Projects";
 import { IProject } from "../../domain/model/project";
@@ -24,5 +31,19 @@ export class ProjectRepository {
         await this.repository.save(projectEntity);
 
         return projectEntity;
+    }
+
+    async findSecretProjects() {
+        return await this.repository.find({
+            where: {
+                startDate: Not(IsNull()),
+                endDate: LessThan(new Date()),
+                description: ILike("secret"),
+                user: {
+                    idade: MoreThanOrEqual(18),
+                },
+            },
+            relations: ["user"],
+        });
     }
 }

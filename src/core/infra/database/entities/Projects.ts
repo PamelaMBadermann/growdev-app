@@ -4,12 +4,15 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
+    OneToMany,
     PrimaryColumn,
     PrimaryGeneratedColumn,
 } from "typeorm";
 import { IProject } from "../../../../features/projects/domain/model/project";
 import { User } from "./User";
 import { v4 as createUuid } from "uuid";
+import { IImpediment } from "../../../../features/impediments/domain/models/IImpediment";
+import { Impediment } from "./Impediment";
 
 @Entity()
 export class Project implements IProject {
@@ -46,6 +49,9 @@ export class Project implements IProject {
 
     @CreateDateColumn()
     created_at: Date;
+
+    @OneToMany(() => Impediment, (impediment) => impediment.project)
+    impediments: IImpediment[];
 
     constructor() {
         this.uid = createUuid();

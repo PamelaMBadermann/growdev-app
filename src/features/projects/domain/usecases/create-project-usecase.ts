@@ -39,5 +39,10 @@ export class CreateProjectUseCase implements UseCase {
             `project:${created.uid}`,
             toCreateProject
         );
+
+        await this.cacheRepository.sadd(
+            "projectsSet",
+            `project:${created.uid}`
+        );
     }
 }
