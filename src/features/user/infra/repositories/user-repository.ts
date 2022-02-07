@@ -2,8 +2,9 @@ import { Repository } from "typeorm";
 import { DatabaseConnection } from "../../../../core/infra/database/connections/connection";
 import { User } from "../../../../core/infra/database/entities/User";
 import { IUser } from "../../../../features/user/domain/model/user";
+import { IUserRepository } from "../../../projects/domain/usecases/create-project-usecase";
 
-export class UserRepository {
+export class UserRepository implements IUserRepository {
     private repository: Repository<User>;
 
     constructor() {
@@ -42,7 +43,7 @@ export class UserRepository {
         });
     }
 
-    async find(username: string) {
+    async find(username: string): Promise<IUser | undefined> {
         return await this.repository.findOne(username);
     }
 }
